@@ -24,6 +24,9 @@ export default function RootLayout({
             <Link href="/studio" className="hover:text-aurora transition">Studio</Link>
             <Link href="/ai-lab" className="hover:text-aurora transition">AI Lab</Link>
             <Link href="/dao" className="hover:text-aurora transition">DAO</Link>
+            <Link href="/digests" className="hover:text-aurora transition">Digests</Link>
+            <Link href="/transparency" className="hover:text-aurora transition">Transparency</Link>
+            <Link href="/dashboard" className="hover:text-aurora transition">Dashboard</Link>
           </nav>
         </header>
         {children}
