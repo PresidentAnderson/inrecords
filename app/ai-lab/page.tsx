@@ -3,420 +3,508 @@ import Link from 'next/link'
 export default function AILab() {
   return (
     <div className="min-h-screen text-white">
-      {/* Hero Section */}
+      {/* Hero Section - Cinematic */}
       <section
-        className="relative p-12 py-24"
+        className="relative min-h-screen flex items-center justify-center overflow-hidden"
         style={{
-          background: `radial-gradient(1200px 600px at 20% 20%, rgba(0,153,255,0.25), transparent),
-                       radial-gradient(1000px 600px at 80% 30%, rgba(255,0,149,0.22), transparent),
-                       radial-gradient(800px 600px at 50% 80%, rgba(255,165,0,0.18), rgba(0,0,0,0.8))`
+          background: `radial-gradient(1400px 700px at 30% 30%, rgba(0,153,255,0.3), transparent),
+                       radial-gradient(1200px 600px at 70% 50%, rgba(138,43,226,0.25), transparent),
+                       radial-gradient(900px 600px at 50% 90%, rgba(255,165,0,0.2), rgba(0,0,0,0.95))`
         }}
       >
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <div className="inline-block px-4 py-2 bg-aurora/20 text-aurora rounded-full text-sm font-semibold mb-4">
+        {/* Animated Background Effect */}
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `repeating-linear-gradient(0deg, rgba(0,153,255,0.03) 0px, transparent 2px, transparent 4px, rgba(0,153,255,0.03) 6px),
+                             repeating-linear-gradient(90deg, rgba(0,153,255,0.03) 0px, transparent 2px, transparent 4px, rgba(0,153,255,0.03) 6px)`,
+            animation: 'pulse 4s ease-in-out infinite'
+          }} />
+        </div>
+
+        <div className="relative z-10 max-w-5xl mx-auto text-center px-6">
+          <div className="mb-8">
+            <div className="inline-flex items-center gap-3 px-5 py-2 bg-aurora/20 border border-aurora/30 rounded-full text-aurora text-sm font-semibold mb-6 backdrop-blur-sm">
+              <span className="w-2 h-2 bg-aurora rounded-full animate-pulse"></span>
               Research & Innovation
             </div>
-            <h1 className="text-6xl font-playfair mb-6">inRECORD AI Lab</h1>
-            <p className="text-xl max-w-3xl mx-auto text-gray-200 mb-8">
-              Where machine learning meets musical intuition. Exploring adaptive mastering, generative soundscapes,
-              and the future of human-AI collaboration in music production.
-            </p>
-            <div className="flex gap-4 justify-center">
-              <Link href="/research" className="px-8 py-4 bg-white text-black rounded-full hover:bg-gray-200 transition font-semibold">
-                Explore Research
+          </div>
+
+          <h1 className="text-7xl md:text-8xl font-playfair mb-8 leading-tight">
+            Machines That Listen<br />Like Producers
+          </h1>
+
+          <p className="text-2xl text-gray-200 max-w-3xl mx-auto mb-12 leading-relaxed">
+            Exploring adaptive mastering, generative soundscapes, and artist-centered AI systems
+            redefining how music is made and experienced.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+            <Link href="#research" className="px-8 py-4 bg-white text-black rounded-full hover:bg-gray-100 transition font-semibold text-lg">
+              Discover Research
+            </Link>
+            <Link href="#demos" className="px-8 py-4 border-2 border-white text-white rounded-full hover:bg-white/10 transition font-semibold text-lg">
+              Listen to Demos
+            </Link>
+            <Link href="#join" className="px-8 py-4 border-2 border-aurora text-aurora rounded-full hover:bg-aurora/10 transition font-semibold text-lg">
+              Join the Lab
+            </Link>
+          </div>
+
+          {/* Scroll Indicator */}
+          <div className="mt-16 animate-bounce">
+            <div className="w-6 h-10 border-2 border-white/30 rounded-full mx-auto flex items-start justify-center p-2">
+              <div className="w-1 h-3 bg-white/50 rounded-full"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Mission Statement */}
+      <section className="p-12 py-24 bg-black">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-5xl font-playfair mb-8">Bridging Artistry & Intelligence</h2>
+          <p className="text-2xl text-gray-300 leading-relaxed mb-6">
+            INRecords AI Lab bridges artistry and machine intelligence.
+          </p>
+          <p className="text-xl text-gray-400 leading-relaxed">
+            We research how sound, emotion, and technology converge — crafting systems that <em className="text-aurora">feel the mix</em>, not just analyze it.
+          </p>
+        </div>
+      </section>
+
+      {/* Research Focus Areas */}
+      <section id="research" className="p-12 py-24 bg-gradient-to-b from-black to-gray-900">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-5xl font-playfair mb-16 text-center">Research Focus Areas</h2>
+
+          <div className="space-y-20">
+            {/* Adaptive Mastering */}
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div>
+                <div className="text-6xl mb-6">🎚️</div>
+                <h3 className="text-4xl font-semibold mb-4">Adaptive Mastering</h3>
+                <p className="text-xl text-gray-300 mb-6">
+                  Real-time mastering tuned to genre, mood, and emotion.
+                </p>
+                <p className="text-gray-400 mb-8">
+                  Our mastering models learn from human producers — balancing tone, depth, and energy dynamically.
+                </p>
+
+                <div className="space-y-3 mb-8">
+                  {[
+                    'Emotion mapping',
+                    'Neural transient shaping',
+                    'Adaptive limiter feedback loops'
+                  ].map((feature) => (
+                    <div key={feature} className="flex items-center gap-3">
+                      <div className="w-6 h-6 rounded-full bg-aurora/20 flex items-center justify-center flex-shrink-0">
+                        <span className="text-aurora text-sm">✓</span>
+                      </div>
+                      <span className="text-gray-300">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <Link href="/research/adaptive-mastering" className="inline-block px-6 py-3 bg-aurora/20 text-aurora border border-aurora/30 rounded-full hover:bg-aurora/30 transition font-semibold">
+                  Try Adaptive Demo →
+                </Link>
+              </div>
+
+              <div className="bg-gradient-to-br from-aurora/10 to-purple-500/10 rounded-3xl p-8 border border-aurora/20 backdrop-blur-sm">
+                <div className="aspect-video bg-black/40 rounded-xl flex items-center justify-center border border-white/10">
+                  <div className="text-center">
+                    <div className="text-5xl mb-4">🎵</div>
+                    <p className="text-gray-400 text-sm">Interactive waveform demo</p>
+                  </div>
+                </div>
+                <div className="mt-6 grid grid-cols-3 gap-4 text-center">
+                  <div className="bg-black/40 rounded-lg p-3 border border-white/5">
+                    <div className="text-2xl font-bold text-aurora">-14</div>
+                    <div className="text-xs text-gray-500">LUFS</div>
+                  </div>
+                  <div className="bg-black/40 rounded-lg p-3 border border-white/5">
+                    <div className="text-2xl font-bold text-aurora">92%</div>
+                    <div className="text-xs text-gray-500">Warmth</div>
+                  </div>
+                  <div className="bg-black/40 rounded-lg p-3 border border-white/5">
+                    <div className="text-2xl font-bold text-aurora">8.2</div>
+                    <div className="text-xs text-gray-500">Energy</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Generative Soundscapes */}
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="order-2 md:order-1">
+                <div className="bg-gradient-to-br from-purple-500/10 to-orange-500/10 rounded-3xl p-8 border border-purple-500/20 backdrop-blur-sm">
+                  <div className="aspect-video bg-black/40 rounded-xl flex items-center justify-center border border-white/10 relative overflow-hidden">
+                    <div className="absolute inset-0 opacity-20">
+                      {[...Array(20)].map((_, i) => (
+                        <div
+                          key={i}
+                          className="absolute bg-purple-500/30 rounded-full"
+                          style={{
+                            width: `${Math.random() * 100 + 50}px`,
+                            height: `${Math.random() * 100 + 50}px`,
+                            left: `${Math.random() * 100}%`,
+                            top: `${Math.random() * 100}%`,
+                            animation: `float ${Math.random() * 10 + 10}s ease-in-out infinite`,
+                            animationDelay: `${Math.random() * 5}s`
+                          }}
+                        />
+                      ))}
+                    </div>
+                    <div className="relative text-center z-10">
+                      <div className="text-5xl mb-4">🌊</div>
+                      <p className="text-gray-400 text-sm">Infinite audio generation</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="order-1 md:order-2">
+                <div className="text-6xl mb-6">🌌</div>
+                <h3 className="text-4xl font-semibold mb-4">Generative Soundscapes</h3>
+                <p className="text-xl text-gray-300 mb-6">
+                  Ambient and dynamic systems for film, wellness, and games.
+                </p>
+                <p className="text-gray-400 mb-8">
+                  Composing endless atmospheres driven by narrative tension, biometrics, or player emotion.
+                </p>
+
+                <div className="space-y-3 mb-8">
+                  {[
+                    'Generative synthesis',
+                    'Context-aware looping',
+                    'Multimodal storytelling cues'
+                  ].map((feature) => (
+                    <div key={feature} className="flex items-center gap-3">
+                      <div className="w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0">
+                        <span className="text-purple-400 text-sm">✓</span>
+                      </div>
+                      <span className="text-gray-300">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <Link href="/research/soundscapes" className="inline-block px-6 py-3 bg-purple-500/20 text-purple-400 border border-purple-500/30 rounded-full hover:bg-purple-500/30 transition font-semibold">
+                  Hear Soundscape Examples →
+                </Link>
+              </div>
+            </div>
+
+            {/* Dataset Curation */}
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div>
+                <div className="text-6xl mb-6">🧬</div>
+                <h3 className="text-4xl font-semibold mb-4">Dataset Curation</h3>
+                <p className="text-xl text-gray-300 mb-6">
+                  Ethical, artist-first datasets for training next-gen models.
+                </p>
+                <p className="text-gray-400 mb-8">
+                  We collaborate with creators who own their masters — ensuring every dataset honors rights, consent, and provenance.
+                </p>
+
+                <div className="space-y-3 mb-8">
+                  {[
+                    'Transparent data lineage',
+                    'Artist licensing agreements',
+                    'Diversity & bias reduction'
+                  ].map((feature) => (
+                    <div key={feature} className="flex items-center gap-3">
+                      <div className="w-6 h-6 rounded-full bg-gold/20 flex items-center justify-center flex-shrink-0">
+                        <span className="text-gold text-sm">✓</span>
+                      </div>
+                      <span className="text-gray-300">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <Link href="/research/datasets" className="inline-block px-6 py-3 bg-gold/20 text-gold border border-gold/30 rounded-full hover:bg-gold/30 transition font-semibold">
+                  Contribute Your Dataset →
+                </Link>
+              </div>
+
+              <div className="bg-gradient-to-br from-gold/10 to-orange-500/10 rounded-3xl p-8 border border-gold/20 backdrop-blur-sm">
+                <div className="space-y-4">
+                  {[
+                    { label: 'Artists Compensated', value: '247', color: 'gold' },
+                    { label: 'Hours of Audio', value: '12.4K', color: 'gold' },
+                    { label: 'Genres Represented', value: '38', color: 'gold' },
+                    { label: 'Ethical Compliance', value: '100%', color: 'gold' }
+                  ].map((stat) => (
+                    <div key={stat.label} className="flex justify-between items-center bg-black/40 rounded-lg p-4 border border-white/5">
+                      <span className="text-gray-400">{stat.label}</span>
+                      <span className={`text-2xl font-bold text-${stat.color}`}>{stat.value}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Research Table */}
+      <section className="p-12 py-24 bg-black">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-4xl font-playfair mb-12 text-center">Featured Research</h2>
+
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="border-b border-gray-800">
+                  <th className="text-left py-4 px-6 text-gray-400 font-semibold">Project</th>
+                  <th className="text-left py-4 px-6 text-gray-400 font-semibold">Description</th>
+                  <th className="text-left py-4 px-6 text-gray-400 font-semibold">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  {
+                    project: 'Adaptive EQ v1.2',
+                    description: 'Emotion-aware equalizer that adjusts to perceived warmth & brightness',
+                    status: 'In Beta',
+                    statusColor: 'aurora'
+                  },
+                  {
+                    project: 'Latent Timbre Map',
+                    description: 'Model clustering emotional timbres across genres',
+                    status: 'Published',
+                    statusColor: 'gold'
+                  },
+                  {
+                    project: 'Infinite Horizon',
+                    description: 'Procedural ambient engine for interactive media',
+                    status: 'Ongoing',
+                    statusColor: 'purple-400'
+                  }
+                ].map((research) => (
+                  <tr key={research.project} className="border-b border-gray-800/50 hover:bg-white/5 transition">
+                    <td className="py-4 px-6 font-semibold">{research.project}</td>
+                    <td className="py-4 px-6 text-gray-400">{research.description}</td>
+                    <td className="py-4 px-6">
+                      <span className={`px-3 py-1 rounded-full text-sm font-semibold bg-${research.statusColor}/20 text-${research.statusColor} border border-${research.statusColor}/30`}>
+                        {research.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="text-center mt-8">
+            <Link href="/research/all" className="text-aurora hover:underline font-semibold">
+              View All Research →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Audio Demos */}
+      <section id="demos" className="p-12 py-24 bg-gradient-to-b from-black to-gray-900">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-4xl font-playfair mb-6 text-center">Audio Demos</h2>
+          <p className="text-center text-gray-400 mb-12 text-lg">
+            Hear how adaptive mastering responds to emotion in real time.
+          </p>
+
+          <div className="bg-white/5 rounded-3xl p-10 border border-white/10 backdrop-blur-sm">
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
+                <h3 className="text-xl font-semibold mb-4">Raw Mix</h3>
+                <div className="bg-black/60 rounded-xl p-6 border border-white/10 aspect-video flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="text-4xl mb-3">🎵</div>
+                    <p className="text-gray-400 text-sm">Waveform visualization</p>
+                    <p className="text-gray-500 text-xs mt-2">Unprocessed audio</p>
+                  </div>
+                </div>
+                <div className="mt-4 flex gap-4">
+                  <button className="flex-1 px-4 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition">▶ Play</button>
+                  <button className="px-4 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition">↓</button>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-xl font-semibold mb-4">AI-Mastered</h3>
+                <div className="bg-gradient-to-br from-aurora/20 to-purple-500/20 rounded-xl p-6 border border-aurora/30 aspect-video flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="text-4xl mb-3">✨</div>
+                    <p className="text-gray-400 text-sm">Adaptive processing</p>
+                    <p className="text-aurora text-xs mt-2 font-semibold">Real-time mastering applied</p>
+                  </div>
+                </div>
+                <div className="mt-4 flex gap-4">
+                  <button className="flex-1 px-4 py-2 bg-aurora/20 border border-aurora/30 text-aurora rounded-lg hover:bg-aurora/30 transition">▶ Play</button>
+                  <button className="px-4 py-2 bg-aurora/20 border border-aurora/30 text-aurora rounded-lg hover:bg-aurora/30 transition">↓</button>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 grid md:grid-cols-3 gap-4 text-sm">
+              <div className="text-center p-4 bg-black/40 rounded-lg border border-white/5">
+                <div className="text-aurora font-semibold mb-1">+3.2 dB</div>
+                <div className="text-gray-500">Perceived Loudness</div>
+              </div>
+              <div className="text-center p-4 bg-black/40 rounded-lg border border-white/5">
+                <div className="text-aurora font-semibold mb-1">28% ↑</div>
+                <div className="text-gray-500">Harmonic Richness</div>
+              </div>
+              <div className="text-center p-4 bg-black/40 rounded-lg border border-white/5">
+                <div className="text-aurora font-semibold mb-1">15ms</div>
+                <div className="text-gray-500">Processing Latency</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Collaborations */}
+      <section className="p-12 py-24 bg-black">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl font-playfair mb-4 text-center">We Work With Those Who Redefine Sound</h2>
+          <p className="text-center text-gray-400 mb-12">
+            Partnering with innovators across music technology, education, and research
+          </p>
+
+          <div className="grid md:grid-cols-4 gap-8 mb-12">
+            {[
+              { name: 'Axai Innovation', type: 'Technology Partner' },
+              { name: 'StudioNYNE', type: 'Production Partner' },
+              { name: 'PVT Academy', type: 'Education Partner' },
+              { name: 'Concordia Research Hub', type: 'Academic Partner' }
+            ].map((partner) => (
+              <div key={partner.name} className="bg-white/5 rounded-2xl p-8 border border-white/10 text-center hover:border-aurora/50 transition">
+                <div className="text-4xl mb-4">🤝</div>
+                <h3 className="font-semibold mb-2">{partner.name}</h3>
+                <p className="text-sm text-gray-500">{partner.type}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <Link href="/partnerships" className="inline-block px-8 py-4 bg-aurora/20 text-aurora border border-aurora/30 rounded-full hover:bg-aurora/30 transition font-semibold">
+              Partner with Us →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Ethics & Transparency */}
+      <section className="p-12 py-24 bg-gradient-to-b from-black to-gray-900">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="text-6xl mb-6">⚖️</div>
+            <h2 className="text-5xl font-playfair mb-6">Ethics & Transparency</h2>
+          </div>
+
+          <div className="bg-white/5 rounded-3xl p-12 border border-white/10 backdrop-blur-sm">
+            <div className="space-y-8 text-center max-w-3xl mx-auto">
+              <p className="text-2xl text-gray-200 leading-relaxed">
+                We build models that respect creators and culture.
+              </p>
+              <p className="text-xl text-gray-300 leading-relaxed">
+                Every dataset is audited for ownership, bias, and integrity.
+              </p>
+              <p className="text-xl text-gray-300 leading-relaxed">
+                We reject black-box training — our AI <span className="text-aurora font-semibold">listens with humans</span>, not instead of them.
+              </p>
+            </div>
+
+            <div className="mt-12 flex flex-wrap gap-4 justify-center">
+              <Link href="/ethics-framework" className="px-6 py-3 bg-white/10 border border-white/20 rounded-full hover:bg-white/20 transition font-semibold">
+                Ethical Framework →
               </Link>
-              <Link href="#projects" className="px-8 py-4 border-2 border-white text-white rounded-full hover:bg-white/10 transition font-semibold">
-                View Projects
+              <Link href="/transparency-report" className="px-6 py-3 bg-white/10 border border-white/20 rounded-full hover:bg-white/20 transition font-semibold">
+                Transparency Report →
+              </Link>
+              <Link href="/open-research" className="px-6 py-3 bg-white/10 border border-white/20 rounded-full hover:bg-white/20 transition font-semibold">
+                Open Research →
               </Link>
             </div>
           </div>
-
-          {/* Stats */}
-          <div className="grid md:grid-cols-4 gap-6 mt-16">
-            {[
-              { value: '8', label: 'Active Research Projects' },
-              { value: '15+', label: 'Academic Partnerships' },
-              { value: '120K', label: 'Training Hours' },
-              { value: 'Open', label: 'Source Tools' },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
-                <div className="text-4xl font-bold text-aurora mb-2">{stat.value}</div>
-                <div className="text-sm text-gray-300">{stat.label}</div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
-      {/* Mission */}
-      <section className="p-12 py-20 bg-black">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-playfair mb-6">Our Mission</h2>
-          <p className="text-xl text-gray-300 leading-relaxed">
-            We believe AI should amplify human creativity, not replace it. The inRECORD AI Lab develops
-            ethical, artist-first tools that enhance musical expression while respecting artistic intent,
-            copyright, and the irreplaceable value of human intuition.
+      {/* Join the Lab */}
+      <section id="join" className="p-12 py-24 bg-black">
+        <div className="max-w-5xl mx-auto text-center">
+          <h2 className="text-5xl font-playfair mb-6">Join the Lab</h2>
+          <p className="text-2xl text-gray-300 mb-12 max-w-3xl mx-auto">
+            Want to experiment, publish, or co-develop with us?<br />
+            Apply for residency or contribute to open research.
           </p>
-        </div>
-      </section>
 
-      {/* Core Research Areas */}
-      <section id="projects" className="p-12 py-20 bg-gradient-to-b from-black to-gray-900">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-playfair mb-12 text-center">Research Areas</h2>
-          <div className="space-y-12">
+          <div className="grid md:grid-cols-3 gap-6 mb-12">
             {[
               {
-                icon: '🎚️',
-                title: 'Adaptive Mastering',
-                tagline: 'Machines That Listen Like Producers',
-                description: 'Real-time mastering engine that analyzes genre, emotion, and loudness standards to apply context-aware processing. Learns from your references and adapts to your artistic vision.',
-                features: [
-                  'Genre-aware EQ & dynamics',
-                  'Reference track matching',
-                  'Streaming platform optimization',
-                  'Emotion-based parameter tuning',
-                  'A/B comparison engine'
-                ],
-                status: 'Beta Testing',
-                partners: ['Berklee College', 'McGill University'],
-                link: '/research/adaptive-mastering'
+                title: 'Apply for Residency',
+                description: '3-6 month research positions for ML engineers, audio researchers, and creative technologists',
+                cta: 'Apply Now',
+                link: '/residency-application'
               },
               {
-                icon: '🌊',
-                title: 'Generative Soundscapes',
-                tagline: 'Infinite Audio Environments',
-                description: 'AI systems generating evolving ambient soundscapes for film, wellness apps, gaming, and installation art. Never-repeating, always coherent.',
-                features: [
-                  'Procedural audio generation',
-                  'Emotion & scene adaptation',
-                  'MIDI & audio output',
-                  'Customizable parameters',
-                  'Real-time interactive control'
-                ],
-                status: 'In Production',
-                partners: ['Ubisoft Audio', 'Calm App'],
-                link: '/research/generative-soundscapes'
+                title: 'Submit a Proposal',
+                description: 'Have a research idea? Pitch collaborative projects and access our infrastructure',
+                cta: 'Submit Proposal',
+                link: '/submit-proposal'
               },
               {
-                icon: '🧠',
-                title: 'Stem Separation & Analysis',
-                tagline: 'Deconstruct to Understand',
-                description: 'Advanced source separation and audio analysis tools. Extract stems, analyze arrangement patterns, and learn from the greats.',
-                features: [
-                  'High-fidelity stem isolation',
-                  'Arrangement analysis',
-                  'Mixing technique extraction',
-                  'Educational applications',
-                  'Sample clearance assistance'
-                ],
-                status: 'Research Phase',
-                partners: ['Sony Research', 'Splice'],
-                link: '/research/stem-separation'
-              },
-              {
-                icon: '📚',
-                title: 'Ethical Dataset Curation',
-                tagline: 'Artist-First Training Data',
-                description: 'Building transparent, consensual datasets for audio ML training. Artists maintain control and receive compensation when their work trains models.',
-                features: [
-                  'Opt-in licensing platform',
-                  'Transparent provenance tracking',
-                  'Royalty distribution system',
-                  'Copyright-safe training',
-                  'Community governance'
-                ],
-                status: 'DAO Integration',
-                partners: ['Creative Commons', 'OpenAI'],
-                link: '/research/ethical-datasets'
-              },
-            ].map((project) => (
-              <div key={project.title} className="bg-white/5 rounded-2xl p-10 border border-white/10 backdrop-blur-sm hover:border-aurora/50 transition">
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div>
-                    <div className="text-6xl mb-4">{project.icon}</div>
-                    <h3 className="text-3xl font-semibold mb-2">{project.title}</h3>
-                    <div className="text-aurora font-semibold mb-4">{project.tagline}</div>
-                    <p className="text-gray-300 mb-6">{project.description}</p>
-                    <div className="mb-6">
-                      <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-3">Key Features</h4>
-                      <ul className="space-y-2">
-                        {project.features.map((feature) => (
-                          <li key={feature} className="flex items-start text-sm text-gray-400">
-                            <span className="text-aurora mr-2 flex-shrink-0">→</span>
-                            <span>{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <Link href={project.link} className="inline-flex items-center text-aurora hover:underline font-semibold">
-                      Learn More →
-                    </Link>
-                  </div>
-                  <div className="space-y-6">
-                    <div className="bg-black/40 rounded-xl p-6 border border-white/10">
-                      <div className="text-sm text-gray-400 mb-2">Status</div>
-                      <div className="text-lg font-semibold text-aurora">{project.status}</div>
-                    </div>
-                    <div className="bg-black/40 rounded-xl p-6 border border-white/10">
-                      <div className="text-sm text-gray-400 mb-3">Research Partners</div>
-                      <div className="space-y-2">
-                        {project.partners.map((partner) => (
-                          <div key={partner} className="flex items-center text-sm">
-                            <span className="text-gold mr-2">✓</span>
-                            <span>{partner}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Technology Stack */}
-      <section className="p-12 py-20 bg-black">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-playfair mb-12 text-center">Technology & Tools</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                category: 'Machine Learning',
-                icon: '🤖',
-                tools: ['PyTorch', 'TensorFlow', 'Librosa', 'OpenAI Whisper', 'Hugging Face Transformers']
-              },
-              {
-                category: 'Audio Processing',
-                icon: '🎵',
-                tools: ['Max MSP', 'JUCE Framework', 'Essentia', 'Spleeter', 'AudioLDM']
-              },
-              {
-                category: 'Infrastructure',
-                icon: '⚙️',
-                tools: ['NVIDIA A100 GPUs', 'AWS SageMaker', 'Docker', 'Kubernetes', 'MLflow']
-              },
-            ].map((stack) => (
-              <div key={stack.category} className="border border-gray-800 rounded-2xl p-8 hover:border-aurora/50 transition">
-                <div className="text-5xl mb-4">{stack.icon}</div>
-                <h3 className="text-2xl font-semibold mb-4">{stack.category}</h3>
-                <ul className="space-y-2">
-                  {stack.tools.map((tool) => (
-                    <li key={tool} className="text-sm text-gray-400 flex items-center">
-                      <span className="text-aurora mr-2">→</span>
-                      {tool}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Research Team */}
-      <section className="p-12 py-20 bg-gradient-to-b from-black to-gray-900">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-playfair mb-4 text-center">Research Team</h2>
-          <p className="text-center text-gray-400 mb-12 max-w-2xl mx-auto">
-            Interdisciplinary team bridging music production, machine learning, and human-centered design.
-          </p>
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              {
-                name: 'Dr. Elena Kozlov',
-                role: 'ML Research Lead',
-                background: 'PhD MIT CSAIL',
-                focus: ['Deep Learning', 'Audio ML'],
-                image: '🔬'
-              },
-              {
-                name: 'James Park',
-                role: 'Audio Engineer',
-                background: 'Former Dolby Labs',
-                focus: ['DSP', 'Real-time Systems'],
-                image: '🎚️'
-              },
-              {
-                name: 'Aisha Williams',
-                role: 'UX Researcher',
-                background: 'CMU HCI',
-                focus: ['Human-AI Interaction', 'Creative Tools'],
-                image: '🎨'
-              },
-              {
-                name: 'Carlos Mendez',
-                role: 'Data Scientist',
-                background: 'Spotify Research',
-                focus: ['MIR', 'Dataset Curation'],
-                image: '📊'
-              },
-            ].map((member) => (
-              <div key={member.name} className="bg-white/5 rounded-2xl p-6 border border-white/10">
-                <div className="text-5xl mb-4 text-center">{member.image}</div>
-                <h3 className="text-lg font-semibold mb-1">{member.name}</h3>
-                <div className="text-aurora text-sm font-semibold mb-2">{member.role}</div>
-                <div className="text-xs text-gray-500 mb-4">{member.background}</div>
-                <div className="space-y-1">
-                  {member.focus.map((area) => (
-                    <div key={area} className="text-xs text-gray-400">
-                      • {area}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Publications & Talks */}
-      <section className="p-12 py-20 bg-black">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-playfair mb-12 text-center">Publications & Talks</h2>
-          <div className="space-y-6">
-            {[
-              {
-                type: 'Conference Paper',
-                title: 'Adaptive Mastering: Genre-Aware Dynamic Range Processing via Deep Reinforcement Learning',
-                venue: 'AES 154th Convention, 2024',
-                authors: 'E. Kozlov, J. Park, et al.',
-                link: '/papers/adaptive-mastering-2024.pdf'
-              },
-              {
-                type: 'Workshop',
-                title: 'Ethical AI in Music: Building Consensual Training Datasets',
-                venue: 'ISMIR 2024 Workshop',
-                authors: 'C. Mendez, A. Williams',
-                link: '/papers/ethical-ai-ismir-2024.pdf'
-              },
-              {
-                type: 'Keynote',
-                title: 'The Future of Human-AI Collaboration in Music Production',
-                venue: 'NAMM Show 2025',
-                authors: 'President Anderson, Dr. E. Kozlov',
-                link: '/talks/namm-2025-keynote'
-              },
-              {
-                type: 'Journal Article',
-                title: 'Generative Soundscapes for Interactive Media: A Procedural Approach',
-                venue: 'Journal of Audio Engineering Society, Vol. 72',
-                authors: 'J. Park, E. Kozlov',
-                link: '/papers/generative-soundscapes-jaes.pdf'
-              },
-            ].map((pub) => (
-              <div key={pub.title} className="bg-white/5 rounded-xl p-6 border border-white/10 hover:border-aurora/30 transition">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <div className="inline-block px-3 py-1 bg-aurora/20 text-aurora rounded-full text-xs font-semibold mb-3">
-                      {pub.type}
-                    </div>
-                    <h3 className="text-xl font-semibold mb-2">{pub.title}</h3>
-                    <div className="text-sm text-gray-400 mb-1">{pub.venue}</div>
-                    <div className="text-sm text-gray-500">{pub.authors}</div>
-                  </div>
-                  <Link href={pub.link} className="text-aurora hover:underline text-sm flex-shrink-0 ml-4">
-                    Read →
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Open Source */}
-      <section className="p-12 py-20 bg-gradient-to-b from-black to-gray-900">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-playfair mb-4 text-center">Open Source Contributions</h2>
-          <p className="text-center text-gray-400 mb-12 max-w-2xl mx-auto">
-            We believe in open research. Many of our tools are available under permissive licenses for the community to build upon.
-          </p>
-          <div className="grid md:grid-cols-2 gap-8">
-            {[
-              {
-                name: 'inr-mastering',
-                description: 'Adaptive mastering plugin (VST/AU) with genre-aware presets and real-time analysis.',
-                language: 'C++/JUCE',
-                stars: '2.4K',
-                license: 'GPL-3.0',
-                link: 'https://github.com/inrecords/inr-mastering'
-              },
-              {
-                name: 'soundscape-gen',
-                description: 'Generative soundscape engine for Max MSP and Ableton Live integration.',
-                language: 'Python/Max',
-                stars: '1.8K',
-                license: 'MIT',
-                link: 'https://github.com/inrecords/soundscape-gen'
-              },
-              {
-                name: 'ethical-audio-datasets',
-                description: 'Framework for building consensual, artist-compensated ML training datasets.',
-                language: 'Python',
-                stars: '890',
-                license: 'Apache-2.0',
-                link: 'https://github.com/inrecords/ethical-audio-datasets'
-              },
-              {
-                name: 'stem-analysis-toolkit',
-                description: 'Audio analysis and stem separation tools for educational and creative applications.',
-                language: 'Python/PyTorch',
-                stars: '3.1K',
-                license: 'MIT',
-                link: 'https://github.com/inrecords/stem-analysis-toolkit'
-              },
-            ].map((repo) => (
-              <div key={repo.name} className="bg-white/5 rounded-2xl p-8 border border-white/10 hover:border-aurora/50 transition">
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-2xl font-semibold">{repo.name}</h3>
-                  <div className="flex items-center text-sm text-gray-400">
-                    <span className="mr-2">⭐</span>
-                    <span>{repo.stars}</span>
-                  </div>
-                </div>
-                <p className="text-gray-400 mb-4">{repo.description}</p>
-                <div className="flex flex-wrap gap-3 mb-4">
-                  <span className="px-3 py-1 bg-aurora/20 text-aurora rounded-full text-xs">{repo.language}</span>
-                  <span className="px-3 py-1 bg-gold/20 text-gold rounded-full text-xs">{repo.license}</span>
-                </div>
-                <Link href={repo.link} className="text-aurora hover:underline text-sm font-semibold">
-                  View on GitHub →
+                title: 'Join Discord',
+                description: 'Connect with researchers, share experiments, and participate in open discussions',
+                cta: 'Join Community',
+                link: '/discord'
+              }
+            ].map((option) => (
+              <div key={option.title} className="bg-white/5 rounded-2xl p-8 border border-white/10 hover:border-aurora/50 transition">
+                <h3 className="text-xl font-semibold mb-4">{option.title}</h3>
+                <p className="text-gray-400 text-sm mb-6">{option.description}</p>
+                <Link href={option.link} className="inline-block px-6 py-3 bg-aurora text-black rounded-full hover:opacity-80 transition font-semibold w-full">
+                  {option.cta}
                 </Link>
               </div>
             ))}
           </div>
+
+          <div className="text-gray-500 text-sm">
+            Questions? <Link href="/contact-research" className="text-aurora hover:underline">Contact the research team</Link>
+          </div>
         </div>
       </section>
 
-      {/* Collaborate */}
-      <section className="p-12 py-20 bg-black">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-5xl font-playfair mb-6">Collaborate With Us</h2>
-          <p className="text-xl text-gray-300 mb-8">
-            We partner with universities, companies, and independent researchers pushing the boundaries
-            of music technology. Let's build the future together.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Link href="/research-partnership" className="px-10 py-4 bg-aurora text-black rounded-full hover:opacity-80 transition font-bold text-lg">
-              Partner With Us
-            </Link>
-            <Link href="/research-grants" className="px-10 py-4 border-2 border-white text-white rounded-full hover:bg-white/10 transition font-bold text-lg">
-              Apply for Grant
-            </Link>
+      {/* Footer */}
+      <footer className="bg-midnight border-t border-gray-800 p-12 py-16">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 mb-8">
+            <div>
+              <h3 className="text-xl font-playfair mb-4">inRECORD</h3>
+              <p className="text-gray-500 text-sm">Where Independence Sounds Infinite</p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-3 text-sm">Partners</h4>
+              <ul className="space-y-2 text-sm text-gray-500">
+                <li>StudioNYNE</li>
+                <li>Axai Innovation</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-3 text-sm">Quick Links</h4>
+              <ul className="space-y-2 text-sm">
+                <Link href="/legal" className="block text-gray-500 hover:text-aurora transition">Legal</Link>
+                <Link href="/contact" className="block text-gray-500 hover:text-aurora transition">Contact</Link>
+                <Link href="/careers" className="block text-gray-500 hover:text-aurora transition">Careers</Link>
+                <Link href="/dao" className="block text-gray-500 hover:text-aurora transition">DAO Portal</Link>
+              </ul>
+            </div>
           </div>
-          <div className="flex justify-center gap-6 text-sm text-gray-400">
-            <Link href="/research-faq" className="hover:text-aurora transition">Research FAQ</Link>
-            <span>•</span>
-            <Link href="/publications" className="hover:text-aurora transition">All Publications</Link>
-            <span>•</span>
-            <Link href="/contact-research" className="hover:text-aurora transition">Contact Team</Link>
+          <div className="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
+            © 2025 INRecords — Where Independence Sounds Infinite
           </div>
         </div>
-      </section>
+      </footer>
     </div>
   )
 }
