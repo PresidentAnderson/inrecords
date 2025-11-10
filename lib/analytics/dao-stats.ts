@@ -217,8 +217,8 @@ export function prepareTransactionTypeChart(
 export function prepareMonthlySummaryChart(
   summary: MonthlySummary[]
 ): TreasuryChartData {
-  const months = [...new Set(summary.map((s) => format(new Date(s.month), 'MMM yyyy')))];
-  const types = [...new Set(summary.map((s) => s.transaction_type))];
+  const months = Array.from(new Set(summary.map((s) => format(new Date(s.month), 'MMM yyyy'))));
+  const types = Array.from(new Set(summary.map((s) => s.transaction_type)));
 
   const colors: Record<string, string> = {
     contribution: '#10b981',

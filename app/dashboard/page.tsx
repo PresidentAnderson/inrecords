@@ -224,7 +224,7 @@ export default function DashboardPage() {
             <div className="bg-white/5 rounded-xl border border-white/10 p-6">
               <div className="text-sm text-gray-400 mb-2">Voting Power</div>
               <div className="text-3xl font-bold text-white">
-                {Math.round(dashboardData?.stats.vote_participation_rate * 100 || 0)}%
+                {Math.round((dashboardData?.stats.vote_participation_rate || 0) * 100)}%
               </div>
             </div>
             <div className="bg-white/5 rounded-xl border border-white/10 p-6">
@@ -351,7 +351,7 @@ export default function DashboardPage() {
                         <div className="flex justify-between items-center">
                           <span className="text-gray-400">Vote Participation Rate</span>
                           <span className="text-xl font-bold text-aurora">
-                            {Math.round(dashboardData?.stats.vote_participation_rate * 100 || 0)}%
+                            {Math.round((dashboardData?.stats.vote_participation_rate || 0) * 100)}%
                           </span>
                         </div>
                         <div className="flex justify-between items-center">

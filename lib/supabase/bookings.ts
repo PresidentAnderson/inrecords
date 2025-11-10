@@ -90,7 +90,7 @@ export async function checkAvailability(
     const time = `${hour.toString().padStart(2, '0')}:00:00`;
 
     // Check if this slot is blocked by any booking
-    const isBooked = bookings?.some((booking) => {
+    const isBooked = bookings?.some((booking: any) => {
       const bookingHour = parseInt(booking.session_time.split(':')[0]);
       const bookingEndHour = bookingHour + booking.duration_hours;
       return hour >= bookingHour && hour < bookingEndHour;
@@ -100,11 +100,11 @@ export async function checkAvailability(
       time,
       available: !isBooked,
       session_id: isBooked
-        ? bookings?.find((b) => {
+        ? (bookings?.find((b: any) => {
             const bookingHour = parseInt(b.session_time.split(':')[0]);
             const bookingEndHour = bookingHour + b.duration_hours;
             return hour >= bookingHour && hour < bookingEndHour;
-          })?.id
+          }) as any)?.id
         : undefined,
     });
   }
