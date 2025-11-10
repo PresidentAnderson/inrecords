@@ -5,7 +5,7 @@ export default function Home() {
         Where Independence Sounds Infinite
       </h2>
       <p className="max-w-xl text-gray-300 text-lg">
-        Welcome to INRecords — a next-generation independent label blending artistry, technology, and community.
+        Welcome to inRECORD — a next-generation independent label blending artistry, technology, and community.
       </p>
     </main>
   )

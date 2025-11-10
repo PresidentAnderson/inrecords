@@ -11,7 +11,7 @@ export default function AILab() {
       }}
     >
       <div className="max-w-5xl mx-auto">
-        <h2 className="text-4xl font-playfair mb-4">INRecords AI Lab</h2>
+        <h2 className="text-4xl font-playfair mb-4">inRECORD AI Lab</h2>
         <p className="text-lg max-w-2xl mb-8">
           Exploring adaptive mastering and generative soundscapes. Machines that listen like producers.
         </p>

@@ -9,7 +9,7 @@ export default function DAO() {
       }}
     >
       <div className="max-w-5xl mx-auto">
-        <h2 className="text-4xl font-playfair mb-4">INRecords DAO</h2>
+        <h2 className="text-4xl font-playfair mb-4">inRECORD DAO</h2>
         <p className="text-lg max-w-2xl mb-8">
           Join the fan-powered label. Vote on artwork, fund special projects, and access behind-the-scenes. Participation over speculation.
         </p>

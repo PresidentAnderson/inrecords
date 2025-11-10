@@ -4,7 +4,7 @@ export default function Academy() {
   return (
     <section className="min-h-screen bg-white text-black p-12">
       <div className="max-w-5xl mx-auto">
-        <h2 className="text-4xl font-playfair mb-4">INRecords Academy</h2>
+        <h2 className="text-4xl font-playfair mb-4">inRECORD Academy</h2>
         <p className="text-lg max-w-2xl mb-8">
           Empowering artists through mentorship, production labs, and business literacy. Apply to develop your sound and brand
           with guidance from StudioNYNE and President Anderson.

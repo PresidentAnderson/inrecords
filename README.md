@@ -1,4 +1,4 @@
-# INRecords
+# inRECORD
 
 Where Independence Sounds Infinite
 
@@ -40,4 +40,4 @@ This project is deployed on [Vercel](https://vercel.com/).
 
 ## License
 
-Copyright © INRecords. All rights reserved.
+Copyright © inRECORD. All rights reserved.
