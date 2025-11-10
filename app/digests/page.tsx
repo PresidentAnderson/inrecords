@@ -1,15 +1,11 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { createClient } from '@supabase/supabase-js';
 import { Digest } from '@/lib/schemas/digest';
-
-// Initialize Supabase client
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
 
 interface DigestWithCount extends Digest {
   total_count?: number;
@@ -33,6 +29,12 @@ export default function DigestsArchivePage() {
     try {
       setLoading(true);
       setError(null);
+
+      // Initialize Supabase client inside the function to avoid build-time env var issues
+      const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      );
 
       const offset = (page - 1) * pageSize;
 
