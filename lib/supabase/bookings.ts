@@ -131,7 +131,7 @@ export async function createBooking(
       ...booking,
       total_cost: totalCost,
       status: 'pending',
-    })
+    } as any)
     .select()
     .single();
 
@@ -187,8 +187,8 @@ export async function updateBookingStatus(
   id: string,
   status: SessionStatus
 ): Promise<StudioSession> {
-  const { data, error } = await supabase
-    .from('studio_sessions')
+  const { data, error } = await (supabase
+    .from('studio_sessions') as any)
     .update({ status })
     .eq('id', id)
     .select()
@@ -209,8 +209,8 @@ export async function updateDaoFundingStatus(
   id: string,
   daoFunded: boolean
 ): Promise<StudioSession> {
-  const { data, error } = await supabase
-    .from('studio_sessions')
+  const { data, error } = await (supabase
+    .from('studio_sessions') as any)
     .update({ dao_funded: daoFunded })
     .eq('id', id)
     .select()
@@ -304,8 +304,8 @@ export async function updateBooking(
     throw new Error('Admin access not configured');
   }
 
-  const { data, error } = await supabaseAdmin
-    .from('studio_sessions')
+  const { data, error } = await (supabaseAdmin
+    .from('studio_sessions') as any)
     .update(updates)
     .eq('id', id)
     .select()
@@ -363,13 +363,13 @@ export async function getBookingStats(): Promise<{
 
   const stats = {
     total: data?.length || 0,
-    pending: data?.filter((b) => b.status === 'pending').length || 0,
-    confirmed: data?.filter((b) => b.status === 'confirmed').length || 0,
-    completed: data?.filter((b) => b.status === 'completed').length || 0,
-    cancelled: data?.filter((b) => b.status === 'cancelled').length || 0,
-    daoFunded: data?.filter((b) => b.dao_funded).length || 0,
+    pending: data?.filter((b: any) => b.status === 'pending').length || 0,
+    confirmed: data?.filter((b: any) => b.status === 'confirmed').length || 0,
+    completed: data?.filter((b: any) => b.status === 'completed').length || 0,
+    cancelled: data?.filter((b: any) => b.status === 'cancelled').length || 0,
+    daoFunded: data?.filter((b: any) => b.dao_funded).length || 0,
     totalRevenue:
-      data?.reduce((sum, b) => sum + (Number(b.total_cost) || 0), 0) || 0,
+      data?.reduce((sum: number, b: any) => sum + (Number(b.total_cost) || 0), 0) || 0,
   };
 
   return stats;

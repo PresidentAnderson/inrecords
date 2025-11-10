@@ -45,7 +45,7 @@ export const supabaseAdmin = supabaseServiceKey
  * Use in Server Components and API Routes
  */
 export function createServerClient() {
-  return createClient<Database>(supabaseUrl, supabaseAnonKey, {
+  return createClient<Database>(supabaseUrl!, supabaseAnonKey!, {
     auth: {
       persistSession: false,
       autoRefreshToken: false,
