@@ -7,16 +7,29 @@ import {
   Distribution,
 } from '../schemas/digest';
 
-// Initialize Supabase client
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+// Lazy initialization to avoid build-time errors
+let supabase: ReturnType<typeof createClient>;
+let resend: Resend;
 
-// Initialize Resend for email
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getSupabase() {
+  if (!supabase) {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY || 'placeholder-key';
+    supabase = createClient(supabaseUrl, supabaseServiceKey);
+  }
+  return supabase;
+}
 
-// Discord webhook URL
-const DISCORD_WEBHOOK_URL = process.env.DISCORD_DIGEST_WEBHOOK_URL!;
+function getResend() {
+  if (!resend) {
+    resend = new Resend(process.env.RESEND_API_KEY || 'placeholder-key');
+  }
+  return resend;
+}
+
+function getDiscordWebhookUrl() {
+  return process.env.DISCORD_DIGEST_WEBHOOK_URL || '';
+}
 
 // Email configuration
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'digest@inrecord.xyz';
@@ -196,7 +209,7 @@ export async function sendToDiscord(digest: Digest): Promise<void> {
     }
 
     // Send to Discord
-    const response = await fetch(DISCORD_WEBHOOK_URL, {
+    const response = await fetch(getDiscordWebhookUrl(), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -215,7 +228,7 @@ export async function sendToDiscord(digest: Digest): Promise<void> {
     }
 
     // Update digest
-    await supabase.from('ai_digests').update({ discord_sent: true }).eq('id', digest.id);
+    await (getSupabase().from('ai_digests') as any).update({ discord_sent: true }).eq('id', digest.id);
 
     console.log('Digest sent to Discord successfully');
   } catch (error) {
@@ -247,7 +260,7 @@ export async function sendToEmail(digest: Digest): Promise<void> {
     const emailHtml = formatEmailContent(digest);
 
     // Send email via Resend
-    const { data, error } = await resend.emails.send({
+    const { data, error } = await getResend().emails.send({
       from: FROM_EMAIL,
       to: subscribers.map((s) => s.email),
       subject: `📊 Weekly DAO Digest - Week of ${formatDate(digest.week_start)}`,
@@ -269,7 +282,7 @@ export async function sendToEmail(digest: Digest): Promise<void> {
     }
 
     // Update digest
-    await supabase.from('ai_digests').update({ email_sent: true }).eq('id', digest.id);
+    await (getSupabase().from('ai_digests') as any).update({ email_sent: true }).eq('id', digest.id);
 
     console.log('Digest sent via email successfully to', subscribers.length, 'recipients');
   } catch (error) {
@@ -526,8 +539,8 @@ export async function trackDistribution(
       sent_at: status === 'sent' ? new Date().toISOString() : null,
     };
 
-    const { error } = await supabase
-      .from('digest_distributions')
+    const { error } = await (getSupabase()
+      .from('digest_distributions') as any)
       .upsert(distribution, {
         onConflict: 'digest_id,channel',
       });
@@ -545,8 +558,8 @@ export async function trackDistribution(
  */
 export async function getDistributionStatus(digestId: string): Promise<Distribution[]> {
   try {
-    const { data, error } = await supabase
-      .from('digest_distributions')
+    const { data, error } = await (getSupabase()
+      .from('digest_distributions') as any)
       .select('*')
       .eq('digest_id', digestId);
 

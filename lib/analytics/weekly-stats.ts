@@ -1,11 +1,17 @@
 import { createClient } from '@supabase/supabase-js';
 import { WeeklyStats, WeeklyStatsSchema } from '../schemas/digest';
 
-// Initialize Supabase client
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+// Lazy initialization to avoid build-time errors
+let supabase: ReturnType<typeof createClient>;
 
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+function getSupabase() {
+  if (!supabase) {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.getSupabase().co';
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY || 'placeholder-key';
+    supabase = createClient(supabaseUrl, supabaseServiceKey);
+  }
+  return supabase;
+}
 
 // =====================================================
 // Weekly Stats Calculation
@@ -23,10 +29,10 @@ export async function calculateWeeklyStats(
 ): Promise<WeeklyStats> {
   try {
     // Call the database function to get aggregated stats
-    const { data, error } = await supabase.rpc('get_weekly_dao_stats', {
+    const { data, error } = await (getSupabase().rpc('get_weekly_dao_stats', {
       p_week_start: weekStart,
       p_week_end: weekEnd,
-    });
+    } as any) as any);
 
     if (error) {
       console.error('Error fetching weekly stats:', error);
@@ -361,7 +367,7 @@ export async function validateDatabaseTables(): Promise<{
     tables.proposals = !proposalsError;
 
     // Check if dao_votes table exists
-    const { error: votesError } = await supabase.from('dao_votes').select('id').limit(1);
+    const { error: votesError } = await getSupabase().from('dao_votes').select('id').limit(1);
 
     tables.votes = !votesError;
 

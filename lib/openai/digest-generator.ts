@@ -10,16 +10,28 @@ import {
 } from '../schemas/digest';
 import { calculateWeeklyStats, generateHighlights } from '../analytics/weekly-stats';
 
-// Initialize OpenAI client
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-  organization: process.env.OPENAI_ORG_ID,
-});
+// Lazy initialization to avoid build-time errors
+let openai: OpenAI;
+let supabase: ReturnType<typeof createClient>;
 
-// Initialize Supabase client
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+function getOpenAI() {
+  if (!openai) {
+    openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY || 'placeholder-key',
+      organization: process.env.OPENAI_ORG_ID,
+    });
+  }
+  return openai;
+}
+
+function getSupabase() {
+  if (!supabase) {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY || 'placeholder-key';
+    supabase = createClient(supabaseUrl, supabaseServiceKey);
+  }
+  return supabase;
+}
 
 // =====================================================
 // System Prompts
@@ -148,8 +160,8 @@ export async function generateWeeklyDigest(
  */
 export async function saveDigestToDatabase(digest: Partial<Digest>): Promise<string> {
   try {
-    const { data, error } = await supabase
-      .from('ai_digests')
+    const { data, error } = await (getSupabase()
+      .from('ai_digests') as any)
       .insert([digest])
       .select('id')
       .single();
@@ -175,8 +187,8 @@ export async function updateDigestInDatabase(
   updates: Partial<Digest>
 ): Promise<void> {
   try {
-    const { error } = await supabase
-      .from('ai_digests')
+    const { error } = await (getSupabase()
+      .from('ai_digests') as any)
       .update(updates)
       .eq('id', digestId);
 
@@ -248,7 +260,7 @@ COMMUNITY:
 - Active members: ${stats.members.active_members}
 `;
 
-    const completion = await openai.chat.completions.create({
+    const completion = await getOpenAI().chat.completions.create({
       model: 'gpt-4',
       messages: [
         { role: 'system', content: DIGEST_SYSTEM_PROMPT },
@@ -289,7 +301,7 @@ export async function analyzeSentimentAndHighlights(
   retries: number = 3
 ): Promise<{ sentiment: Sentiment; highlights: string[] }> {
   try {
-    const completion = await openai.chat.completions.create({
+    const completion = await getOpenAI().chat.completions.create({
       model: 'gpt-4',
       messages: [
         { role: 'system', content: SENTIMENT_SYSTEM_PROMPT },
@@ -343,7 +355,7 @@ export async function translateToFrench(
   retries: number = 3
 ): Promise<string> {
   try {
-    const completion = await openai.chat.completions.create({
+    const completion = await getOpenAI().chat.completions.create({
       model: 'gpt-4',
       messages: [
         { role: 'system', content: TRANSLATION_SYSTEM_PROMPT },
@@ -387,7 +399,7 @@ export async function translateToPortuguese(
   retries: number = 3
 ): Promise<string> {
   try {
-    const completion = await openai.chat.completions.create({
+    const completion = await getOpenAI().chat.completions.create({
       model: 'gpt-4',
       messages: [
         { role: 'system', content: TRANSLATION_SYSTEM_PROMPT },
@@ -428,8 +440,8 @@ export async function translateToPortuguese(
  */
 export async function getExistingDigest(weekStart: string): Promise<Digest | null> {
   try {
-    const { data, error } = await supabase
-      .from('ai_digests')
+    const { data, error } = await (getSupabase()
+      .from('ai_digests') as any)
       .select('*')
       .eq('week_start', weekStart)
       .single();

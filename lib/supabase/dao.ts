@@ -20,10 +20,23 @@ import type {
 // Supabase Client Setup
 // =====================================================
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+let supabaseClient: ReturnType<typeof createClient>;
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+function getSupabase() {
+  if (!supabaseClient) {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
+    supabaseClient = createClient(supabaseUrl, supabaseKey);
+  }
+  return supabaseClient;
+}
+
+// Export getter for backward compatibility
+export const supabase = new Proxy({} as ReturnType<typeof createClient>, {
+  get(_, prop) {
+    return (getSupabase() as any)[prop];
+  }
+});
 
 // =====================================================
 // Proposal Operations
@@ -39,8 +52,8 @@ export async function getProposals(filters?: {
   offset?: number;
 }): Promise<{ data: DAOProposal[] | null; error: any }> {
   try {
-    let query = supabase
-      .from('dao_proposals')
+    let query = (supabase
+      .from('dao_proposals') as any)
       .select('*')
       .order('created_at', { ascending: false });
 
@@ -81,8 +94,8 @@ export async function getProposal(
   proposalId: string
 ): Promise<{ data: DAOProposal | null; error: any }> {
   try {
-    const { data, error } = await supabase
-      .from('dao_proposals')
+    const { data, error } = await (supabase
+      .from('dao_proposals') as any)
       .select('*')
       .eq('id', proposalId)
       .single();
@@ -106,8 +119,8 @@ export async function createProposal(
   input: CreateProposalInput
 ): Promise<{ data: DAOProposal | null; error: any }> {
   try {
-    const { data, error } = await supabase
-      .from('dao_proposals')
+    const { data, error } = await (supabase
+      .from('dao_proposals') as any)
       .insert({
         title: input.title,
         description: input.description,
@@ -141,8 +154,8 @@ export async function updateProposal(
   input: UpdateProposalInput
 ): Promise<{ data: DAOProposal | null; error: any }> {
   try {
-    const { data, error } = await supabase
-      .from('dao_proposals')
+    const { data, error } = await (supabase
+      .from('dao_proposals') as any)
       .update(input)
       .eq('id', proposalId)
       .select()
@@ -167,8 +180,8 @@ export async function deleteProposal(
   proposalId: string
 ): Promise<{ success: boolean; error: any }> {
   try {
-    const { error } = await supabase
-      .from('dao_proposals')
+    const { error } = await (supabase
+      .from('dao_proposals') as any)
       .update({ status: 'cancelled' })
       .eq('id', proposalId);
 
@@ -196,8 +209,8 @@ export async function castVote(
 ): Promise<{ data: DAOVote | null; error: any }> {
   try {
     // Check if user has already voted
-    const { data: existingVote } = await supabase
-      .from('dao_votes')
+    const { data: existingVote } = await (supabase
+      .from('dao_votes') as any)
       .select('*')
       .eq('proposal_id', input.proposal_id)
       .eq('voter_wallet', input.voter_wallet)
@@ -213,8 +226,8 @@ export async function castVote(
     }
 
     // Insert new vote
-    const { data, error } = await supabase
-      .from('dao_votes')
+    const { data, error } = await (supabase
+      .from('dao_votes') as any)
       .insert({
         proposal_id: input.proposal_id,
         voter_wallet: input.voter_wallet,
@@ -245,8 +258,8 @@ export async function updateVote(
   input: UpdateVoteInput
 ): Promise<{ data: DAOVote | null; error: any }> {
   try {
-    const { data, error } = await supabase
-      .from('dao_votes')
+    const { data, error } = await (supabase
+      .from('dao_votes') as any)
       .update(input)
       .eq('id', voteId)
       .select()
@@ -271,8 +284,8 @@ export async function getProposalVotes(
   proposalId: string
 ): Promise<{ data: DAOVote[] | null; error: any }> {
   try {
-    const { data, error } = await supabase
-      .from('dao_votes')
+    const { data, error } = await (supabase
+      .from('dao_votes') as any)
       .select('*')
       .eq('proposal_id', proposalId)
       .order('voted_at', { ascending: false });
@@ -296,8 +309,8 @@ export async function getVoterHistory(
   voterWallet: string
 ): Promise<{ data: DAOVote[] | null; error: any }> {
   try {
-    const { data, error } = await supabase
-      .from('dao_votes')
+    const { data, error } = await (supabase
+      .from('dao_votes') as any)
       .select('*, dao_proposals(*)')
       .eq('voter_wallet', voterWallet)
       .order('voted_at', { ascending: false });
@@ -322,8 +335,8 @@ export async function hasVoted(
   voterWallet: string
 ): Promise<{ voted: boolean; vote: DAOVote | null; error: any }> {
   try {
-    const { data, error } = await supabase
-      .from('dao_votes')
+    const { data, error } = await (supabase
+      .from('dao_votes') as any)
       .select('*')
       .eq('proposal_id', proposalId)
       .eq('voter_wallet', voterWallet)
@@ -416,26 +429,26 @@ export async function getDAOAnalytics(): Promise<{
 }> {
   try {
     // Get proposal counts
-    const { data: proposals, error: proposalError } = await supabase
-      .from('dao_proposals')
+    const { data: proposals, error: proposalError } = await (supabase
+      .from('dao_proposals') as any)
       .select('status');
 
     if (proposalError) throw proposalError;
 
     // Get vote counts
-    const { data: votes, error: voteError } = await supabase
-      .from('dao_votes')
+    const { data: votes, error: voteError } = await (supabase
+      .from('dao_votes') as any)
       .select('voter_wallet');
 
     if (voteError) throw voteError;
 
     const analytics = {
       total_proposals: proposals?.length || 0,
-      active_proposals: proposals?.filter(p => p.status === 'active').length || 0,
+      active_proposals: proposals?.filter((p: any) => p.status === 'active').length || 0,
       total_votes: votes?.length || 0,
-      unique_voters: new Set(votes?.map(v => v.voter_wallet) || []).size,
-      passed_proposals: proposals?.filter(p => p.status === 'passed').length || 0,
-      rejected_proposals: proposals?.filter(p => p.status === 'rejected').length || 0
+      unique_voters: new Set(votes?.map((v: any) => v.voter_wallet) || []).size,
+      passed_proposals: proposals?.filter((p: any) => p.status === 'passed').length || 0,
+      rejected_proposals: proposals?.filter((p: any) => p.status === 'rejected').length || 0
     };
 
     return { data: analytics, error: null };
@@ -455,8 +468,8 @@ export async function getTrendingProposals(
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-    const { data, error } = await supabase
-      .from('dao_proposals')
+    const { data, error } = await (supabase
+      .from('dao_proposals') as any)
       .select(`
         *,
         dao_votes (count)

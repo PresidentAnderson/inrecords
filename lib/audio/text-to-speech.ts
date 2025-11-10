@@ -1,14 +1,21 @@
 import { createClient } from '@supabase/supabase-js';
 import { Language, AudioResult, AudioResultSchema } from '../schemas/digest';
 
-// Initialize Supabase client
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+// Lazy initialization to avoid build-time errors
+let supabase: ReturnType<typeof createClient>;
+
+function getSupabase() {
+  if (!supabase) {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.getSupabase().co';
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY || 'placeholder-key';
+    supabase = createClient(supabaseUrl, supabaseServiceKey);
+  }
+  return supabase;
+}
 
 // Play.ht API configuration
-const PLAYHT_API_KEY = process.env.PLAYHT_API_KEY!;
-const PLAYHT_USER_ID = process.env.PLAYHT_USER_ID!;
+const PLAYHT_API_KEY = process.env.PLAYHT_API_KEY || '';
+const PLAYHT_USER_ID = process.env.PLAYHT_USER_ID || '';
 const PLAYHT_API_URL = 'https://api.play.ht/api/v2';
 
 // Voice configuration for different languages
@@ -246,7 +253,7 @@ export async function uploadAudioToStorage(
       : `digests/${timestamp}-${language}.mp3`;
 
     // Upload to Supabase Storage
-    const { data, error } = await supabase.storage
+    const { data, error } = await getSupabase().storage
       .from('audio')
       .upload(filename, audioBuffer, {
         contentType: 'audio/mpeg',
@@ -260,7 +267,7 @@ export async function uploadAudioToStorage(
     }
 
     // Get public URL
-    const { data: urlData } = supabase.storage.from('audio').getPublicUrl(filename);
+    const { data: urlData } = getSupabase().storage.from('audio').getPublicUrl(filename);
 
     console.log(`Audio uploaded to: ${urlData.publicUrl}`);
     return urlData.publicUrl;
@@ -280,7 +287,7 @@ export async function deleteAudioFromStorage(audioUrl: string): Promise<void> {
     const filename = urlParts[urlParts.length - 1];
     const path = `digests/${filename}`;
 
-    const { error } = await supabase.storage.from('audio').remove([path]);
+    const { error } = await getSupabase().storage.from('audio').remove([path]);
 
     if (error) {
       console.error('Error deleting audio from storage:', error);

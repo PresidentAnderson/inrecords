@@ -6,7 +6,7 @@ import { Resend } from 'resend';
 import type { StudioSession } from '../supabase/types';
 import { format } from 'date-fns';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || 'placeholder-key');
 
 const FROM_EMAIL = 'bookings@inrecord.io';
 const ADMIN_EMAIL = 'admin@inrecord.io';

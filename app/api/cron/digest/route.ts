@@ -9,6 +9,10 @@ import { generateAllAudioVersions } from '@/lib/audio/text-to-speech';
 import { distributeDigest } from '@/lib/distribution/digest-distributor';
 import { getPreviousWeekRange } from '@/lib/schemas/digest';
 
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 /**
  * Weekly Cron Job for AI Digest Generation
  *

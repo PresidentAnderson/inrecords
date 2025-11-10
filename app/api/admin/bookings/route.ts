@@ -7,6 +7,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getAllBookings } from '@/lib/supabase/bookings';
 import type { SessionStatus, RoomType } from '@/lib/supabase/types';
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/admin/bookings
  * Get all bookings with optional filters (Admin only)

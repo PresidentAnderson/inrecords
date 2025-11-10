@@ -27,14 +27,14 @@ export async function addTransaction(
   transaction: TreasuryTransactionInsert
 ): Promise<{ data: TreasuryTransaction | null; error: any }> {
   try {
-    const { data, error } = await supabase
-      .from('dao_treasury')
+    const { data, error } = await ((supabase
+      .from('dao_treasury') as any)
       .insert(transaction)
       .select()
-      .single();
+      .single());
 
     if (error) throw error;
-    return { data, error: null };
+    return { data: data as TreasuryTransaction, error: null };
   } catch (error) {
     console.error('Error adding transaction:', error);
     return { data: null, error };
@@ -131,15 +131,15 @@ export async function updateTransaction(
   updates: TreasuryTransactionUpdate
 ): Promise<{ data: TreasuryTransaction | null; error: any }> {
   try {
-    const { data, error } = await supabase
-      .from('dao_treasury')
+    const { data, error } = await ((supabase
+      .from('dao_treasury') as any)
       .update(updates)
       .eq('id', id)
       .select()
-      .single();
+      .single());
 
     if (error) throw error;
-    return { data, error: null };
+    return { data: data as TreasuryTransaction, error: null };
   } catch (error) {
     console.error('Error updating transaction:', error);
     return { data: null, error };
@@ -277,13 +277,13 @@ export async function getTransactionStats(
   endDate?: string
 ): Promise<{ data: TransactionStats[] | null; error: any }> {
   try {
-    const { data, error } = await supabase.rpc('get_transaction_stats', {
+    const { data, error } = await (supabase.rpc('get_transaction_stats', {
       start_date: startDate,
       end_date: endDate,
-    });
+    } as any) as any);
 
     if (error) throw error;
-    return { data, error: null };
+    return { data: data as TransactionStats[], error: null };
   } catch (error) {
     console.error('Error fetching transaction stats:', error);
     return { data: null, error };
@@ -348,13 +348,13 @@ export async function addBatchTransactions(
   transactions: TreasuryTransactionInsert[]
 ): Promise<{ data: TreasuryTransaction[] | null; error: any }> {
   try {
-    const { data, error } = await supabase
-      .from('dao_treasury')
+    const { data, error } = await ((supabase
+      .from('dao_treasury') as any)
       .insert(transactions)
-      .select();
+      .select());
 
     if (error) throw error;
-    return { data, error: null };
+    return { data: data as TreasuryTransaction[], error: null };
   } catch (error) {
     console.error('Error adding batch transactions:', error);
     return { data: null, error };
@@ -411,13 +411,13 @@ export async function getTotalsByType(): Promise<{
   error: any;
 }> {
   try {
-    const { data, error } = await supabase
-      .from('dao_treasury')
-      .select('transaction_type, amount');
+    const { data, error } = await ((supabase
+      .from('dao_treasury') as any)
+      .select('transaction_type, amount'));
 
     if (error) throw error;
 
-    const totals = data.reduce((acc, transaction) => {
+    const totals = (data as any[]).reduce((acc, transaction) => {
       const type = transaction.transaction_type;
       acc[type] = (acc[type] || 0) + Number(transaction.amount);
       return acc;
@@ -438,16 +438,16 @@ export async function getTransactionCountByMonth(): Promise<{
   error: any;
 }> {
   try {
-    const { data, error } = await supabase
-      .from('monthly_treasury_summary')
-      .select('month, transaction_count');
+    const { data, error } = await ((supabase
+      .from('monthly_treasury_summary') as any)
+      .select('month, transaction_count'));
 
     if (error) throw error;
 
     // Group by month
-    const monthlyData = data.reduce((acc, item) => {
+    const monthlyData = (data as any[]).reduce((acc, item) => {
       const month = item.month;
-      const existing = acc.find(x => x.month === month);
+      const existing = acc.find((x: any) => x.month === month);
       if (existing) {
         existing.count += Number(item.transaction_count);
       } else {
